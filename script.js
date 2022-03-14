@@ -1,4 +1,4 @@
-/* Задание на урок:
+/* Задание на урок 1:
 
 1) Создать переменную numberOfFilms и в неё поместить ответ от пользователя на вопрос:
 'Сколько фильмов вы уже посмотрели?'
@@ -18,12 +18,30 @@
     movies: {
         'logan': '8.1'
     }
-
 Проверить, чтобы все работало без ошибок в консоли */
+
+
+/* Задание на урок 2:
+
+1) Автоматизировать вопросы пользователю про фильмы при помощи цикла
+
+2) Сделать так, чтобы пользователь не мог оставить ответ в виде пустой строки,
+отменить ответ или ввести название фильма длинее, чем 50 символов. Если это происходит - 
+возвращаем пользователя к вопросам опять
+
+3) При помощи условий проверить  personalMovieDB.count, и если он меньше 10 - вывести сообщение
+"Просмотрено довольно мало фильмов", если от 10 до 30 - "Вы классический зритель", а если больше - 
+"Вы киноман". А если не подошло ни к одному варианту - "Произошла ошибка"
+
+4) Потренироваться и переписать цикл еще двумя способами*/
 
 'use strict';
 
-const numberOfFilms = +prompt("Скільки фільмів Ви вже переглянули?", "");
+// Код возьмите из предыдущего домашнего задания
+
+'use strict';
+
+let numberOfFilms = +prompt("Скільки фільмів Ви вже переглянули?", "");
 
 const personalMovieDB = {
     count: numberOfFilms,
@@ -33,11 +51,42 @@ const personalMovieDB = {
     privat: false
 };
 
-for (let i = 0; i < numberOfFilms; i++){
-    const question = prompt("Назвіть один з недавно переглянутих фільмів"),
-        answer = +prompt("Як Ви його оціните?");
 
-    personalMovieDB.movies[question] = answer;
+// Спосіб 1
+for (let i = 0; i <= numberOfFilms; i++){
+
+    const question = prompt("Назвіть один з недавно переглянутих фільмів");
+
+        if (question && question.length < 50){
+            const answer = prompt("Як Ви його оціните?");
+                personalMovieDB.movies[question] = answer;
+        }else {
+            i--;
+            console.log(i);
+        }
+    }
+
+
+ //Спосіб 2
+ 
+//  while(numberOfFilms > 0){
+//     const question = prompt("Назвіть один з недавно переглянутих фільмів");
+
+//             if (question && question.length < 50){
+//                 const answer = prompt("Як Ви його оціните?");
+//                 personalMovieDB.movies[question] = answer;
+//                 numberOfFilms--;
+//             }
+//  }
+ 
+if (personalMovieDB.count < 10){
+    alert("Переглянуто доволі мало фільмів.");
+} else if (personalMovieDB.count <= 30){
+    alert("Ви класичний глядач.");
+} else if (personalMovieDB.count > 30){
+    alert("Ви кіноман.");
+} else {
+    alert("Відбулась помилка.");
 }
 
 console.log (personalMovieDB);
