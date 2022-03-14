@@ -23,5 +23,21 @@
 
 'use strict';
 
-const numberOfFilms = prompt("Скільки фільмів Ви проглянули?");
+const numberOfFilms = +prompt("Скільки фільмів Ви вже переглянули?", "");
 
+const personalMovieDB = {
+    count: numberOfFilms,
+    movies: {},
+    actors: {},
+    genres: [],
+    privat: false
+};
+
+for (let i = 0; i < numberOfFilms; i++){
+    const question = prompt("Назвіть один з недавно переглянутих фільмів"),
+        answer = +prompt("Як Ви його оціните?");
+
+    personalMovieDB.movies[question] = answer;
+}
+
+console.log (personalMovieDB);
