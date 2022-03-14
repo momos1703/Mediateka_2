@@ -35,9 +35,21 @@
 
 4) Потренироваться и переписать цикл еще двумя способами*/
 
-'use strict';
 
-// Код возьмите из предыдущего домашнего задания
+/* Задание на урок 3:
+
+1) Первую часть задания повторить по уроку
+
+2) Создать функцию showMyDB, которая будет проверять свойство privat. Если стоит в позиции
+false - выводит в консоль главный объект программы
+
+3) Создать функцию writeYourGenres в которой пользователь будет 3 раза отвечать на вопрос 
+"Ваш любимый жанр под номером ${номер по порядку}". Каждый ответ записывается в массив данных
+genres
+
+P.S. Функции вызывать не обязательно*/
+
+
 
 'use strict';
 
@@ -53,13 +65,36 @@ const personalMovieDB = {
 
 
 // Спосіб 1
-for (let i = 0; i <= numberOfFilms; i++){
+for (let i = 0; i < numberOfFilms; i++){
 
-    const question = prompt("Назвіть один з недавно переглянутих фільмів");
+    let question = prompt("Назвіть один з недавно переглянутих фільмів", '');
 
-        if (question && question.length < 50){
-            const answer = prompt("Як Ви його оціните?");
+            while(question == '' || question == null){
+                question = prompt("Назвіть один з недавно переглянутих фільмів", '');
+            }
+
+    let answer = +prompt("Як Ви його оціните від 1 до 10?", '');
+
+            while(answer == '' || answer == null || isNaN(answer)){
+                answer = +prompt("Як Ви його оціните від 1 до 10?", '');
+            }
+
+            if (question && question.length < 50){
+
                 personalMovieDB.movies[question] = answer;
+
+        // if (question && question.length < 50){
+
+        //     for (let i = 0; i < 1; i++){
+        //         let answer = +prompt("Як Ви його оціните від 1 до 10?", '');
+        //         if (answer && answer < 1 && answer > 10) {
+        //             answer = +prompt("Як Ви його оціните від 1 до 10?", '');
+        //             i = 0;
+        //         }else {
+        //             personalMovieDB.movies[question] = answer;
+        //         }
+        //     }
+
         }else {
             i--;
             console.log(i);
