@@ -49,50 +49,106 @@ genres
 
 P.S. Функции вызывать не обязательно*/
 
+/* Задание на урок 4:
+
+1) У нас уже есть рабочее приложение, состоящее из отдельных функций. Представьте, что
+перед вами стоит задача переписать его так, чтобы все функции стали методами объекта personalMovieDB
+Такое случается в реальных продуктах при смене технологий или подхода к архитектуре программы
+
+2) Создать метод toggleVisibleMyDB, который при вызове будет проверять свойство privat. Если оно false - он
+переключает его в true, если true - переключает в false. Протестировать вместе с showMyDB.
+
+3) В методе writeYourGenres запретить пользователю нажать кнопку "отмена" или оставлять пустую строку. 
+Если он это сделал - возвращать его к этому же вопросу. После того, как все жанры введены - 
+при помощи метода forEach вывести в консоль сообщения в таком виде:
+"Любимый жанр #(номер по порядку, начиная с 1) - это (название из массива)"*/
+
 
 
 'use strict';
 
-let numberOfFilms;
-
-function start (){
-    numberOfFilms = +prompt("Скільки фільмів Ви вже переглянули?", "");
-    while (numberOfFilms == '' || numberOfFilms == null || isNaN(numberOfFilms)){
-        numberOfFilms = +prompt("Скільки фільмів Ви вже переглянули?", "");
-    }
-}
-
-start ();
-
 const personalMovieDB = {
-    count: numberOfFilms,
+    count: 0,
     movies: {},
     actors: {},
     genres: [],
-    privat: false
-};
+    privat: false,
+    start: () => {
+        this.count = +prompt("Скільки фільмів Ви вже переглянули?", "");
+        while (this.count == '' || this.count == null || isNaN(this.count)){
+            this.count = +prompt("Скільки фільмів Ви вже переглянули?", "");
+        }
+    },
+    rememberMyFilms: () => {
+        for (let i = 0; i < this.count; i++){
+    
+        let recentFilm = prompt("Назвіть один з недавно переглянутих фільмів", '');
+        
+                    while(recentFilm == '' || recentFilm == null){
+                        recentFilm = prompt("Назвіть один з недавно переглянутих фільмів", '');
+                    }
 
+                    if (recentFilm && recentFilm.length < 50){
+                       let markOfFilm = +prompt("Як Ви його оціните від 1 до 10?", '');
+        
+                        while(markOfFilm == '' || markOfFilm == null || isNaN(markOfFilm)){
+                            markOfFilm = +prompt("Як Ви його оціните від 1 до 10?", '');
+                        }
+                        personalMovieDB.movies[recentFilm] = markOfFilm;
+                }else {
+                    i--;
+                    console.log(i);
+                }
+            }
+    },
+    detectPersonalLevel: () => {
+        if (this.count < 10){
+            alert("Переглянуто доволі мало фільмів.");
+        } else if (this.count <= 30){
+            alert("Ви класичний глядач.");
+        } else if (this.count > 30){
+            alert("Ви кіноман.");
+        } else {
+            alert("Відбулась помилка.");
+        }
+        console.log (personalMovieDB);
+    },
+    writeYourGenres: function () {
+        for (let i = 1; i <= 3; i++){
+            let favoriteGeners = prompt(`"Ваш улюблений жанр під номером ${i}"`);
+            while(favoriteGeners == '' || favoriteGeners == null){
+                favoriteGeners = prompt(`"Ваш улюблений жанр під номером ${i}"`);
+            }
+            this.genres[i - 1] = favoriteGeners;
+        }
+        personalMovieDB.genres.forEach((item, i) => {
+            console.log(`"Улюблений жанр #${i + 1} - це ${item}"`);
+        });
+    },
+
+
+    showMyDB: function (hidden) {
+        if (!hidden){
+            console.log(this);
+        }
+    },
+    toggleVisibleMyDB: () => {
+        if (!this.privat){
+            this.privat = true;
+        }else {
+                this.privat = false;
+        }
+    }
+};
+personalMovieDB.start();
+personalMovieDB.rememberMyFilms();
+personalMovieDB.detectPersonalLevel();
+personalMovieDB.writeYourGenres();
+personalMovieDB.showMyDB(personalMovieDB.privat);
+personalMovieDB.toggleVisibleMyDB();
 
 // Спосіб 1
 
-function rememberMyFilms(circles){
-    for (let i = 0; i < circles; i++){
-
-    let recentFilm = prompt("Назвіть один з недавно переглянутих фільмів", '');
-    
-                while(recentFilm == '' || recentFilm == null){
-                    recentFilm = prompt("Назвіть один з недавно переглянутих фільмів", '');
-                }
-    
-                if (recentFilm && recentFilm.length < 50){
-                   let markOfFilm = +prompt("Як Ви його оціните від 1 до 10?", '');
-    
-                    while(markOfFilm == '' || markOfFilm == null || isNaN(markOfFilm)){
-                        markOfFilm = +prompt("Як Ви його оціните від 1 до 10?", '');
-                    }
-
-                    personalMovieDB.movies[recentFilm] = markOfFilm;
-    
             // if (question && question.length < 50){
     
             //     for (let i = 0; i < 1; i++){
@@ -104,14 +160,6 @@ function rememberMyFilms(circles){
             //             personalMovieDB.movies[question] = answer;
             //         }
             //     }
-    
-            }else {
-                i--;
-                console.log(i);
-            }
-        }
-}
-rememberMyFilms(numberOfFilms);
 
 
  //Спосіб 2
@@ -125,40 +173,3 @@ rememberMyFilms(numberOfFilms);
 //                 numberOfFilms--;
 //             }
 //  }
- 
-
-function detectPersonalLevel(films){
-    if (films < 10){
-        alert("Переглянуто доволі мало фільмів.");
-    } else if (films <= 30){
-        alert("Ви класичний глядач.");
-    } else if (films > 30){
-        alert("Ви кіноман.");
-    } else {
-        alert("Відбулась помилка.");
-    }
-    console.log (personalMovieDB);
-}
-
-detectPersonalLevel(personalMovieDB.count);
-
-
-function writeYourGenres(){
-    for (let i = 1; i <= 3; i++){
-        let favoriteGeners = prompt(`"Ваш улюблений жанр під номером ${i}"`);
-        while(favoriteGeners == '' || favoriteGeners == null){
-            favoriteGeners = prompt(`"Ваш улюблений жанр під номером ${i}"`);
-        }
-        personalMovieDB.genres[i - 1] = favoriteGeners;
-    }
-}
-
-writeYourGenres();
-
-function showMyDB (hidden){
-    if (!hidden){
-        console.log(personalMovieDB);
-    }
-}
-
-showMyDB(personalMovieDB.privat);
