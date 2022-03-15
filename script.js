@@ -53,7 +53,16 @@ P.S. Функции вызывать не обязательно*/
 
 'use strict';
 
-let numberOfFilms = +prompt("Скільки фільмів Ви вже переглянули?", "");
+let numberOfFilms;
+let question;
+let answer;
+let famousGeners;
+
+function start (){
+    numberOfFilms = +prompt("Скільки фільмів Ви вже переглянули?", "");
+}
+
+start ();
 
 const personalMovieDB = {
     count: numberOfFilms,
@@ -65,41 +74,44 @@ const personalMovieDB = {
 
 
 // Спосіб 1
-for (let i = 0; i < numberOfFilms; i++){
 
-    let question = prompt("Назвіть один з недавно переглянутих фільмів", '');
+function rememberMyFilms(circles){
+    for (let i = 0; i < circles; i++){
 
-            while(question == '' || question == null){
-                question = prompt("Назвіть один з недавно переглянутих фільмів", '');
+        question = prompt("Назвіть один з недавно переглянутих фільмів", '');
+    
+                while(question == '' || question == null){
+                    question = prompt("Назвіть один з недавно переглянутих фільмів", '');
+                }
+    
+                if (question && question.length < 50){
+                    answer = +prompt("Як Ви його оціните від 1 до 10?", '');
+    
+                    while(answer == '' || answer == null || isNaN(answer)){
+                        answer = +prompt("Як Ви його оціните від 1 до 10?", '');
+                    }
+    
+                    personalMovieDB.movies[question] = answer;
+    
+            // if (question && question.length < 50){
+    
+            //     for (let i = 0; i < 1; i++){
+            //         let answer = +prompt("Як Ви його оціните від 1 до 10?", '');
+            //         if (answer && answer < 1 && answer > 10) {
+            //             answer = +prompt("Як Ви його оціните від 1 до 10?", '');
+            //             i = 0;
+            //         }else {
+            //             personalMovieDB.movies[question] = answer;
+            //         }
+            //     }
+    
+            }else {
+                i--;
+                console.log(i);
             }
-
-    let answer = +prompt("Як Ви його оціните від 1 до 10?", '');
-
-            while(answer == '' || answer == null || isNaN(answer)){
-                answer = +prompt("Як Ви його оціните від 1 до 10?", '');
-            }
-
-            if (question && question.length < 50){
-
-                personalMovieDB.movies[question] = answer;
-
-        // if (question && question.length < 50){
-
-        //     for (let i = 0; i < 1; i++){
-        //         let answer = +prompt("Як Ви його оціните від 1 до 10?", '');
-        //         if (answer && answer < 1 && answer > 10) {
-        //             answer = +prompt("Як Ви його оціните від 1 до 10?", '');
-        //             i = 0;
-        //         }else {
-        //             personalMovieDB.movies[question] = answer;
-        //         }
-        //     }
-
-        }else {
-            i--;
-            console.log(i);
         }
-    }
+}
+rememberMyFilms(numberOfFilms);
 
 
  //Спосіб 2
@@ -114,14 +126,40 @@ for (let i = 0; i < numberOfFilms; i++){
 //             }
 //  }
  
-if (personalMovieDB.count < 10){
-    alert("Переглянуто доволі мало фільмів.");
-} else if (personalMovieDB.count <= 30){
-    alert("Ви класичний глядач.");
-} else if (personalMovieDB.count > 30){
-    alert("Ви кіноман.");
-} else {
-    alert("Відбулась помилка.");
+
+function detectPersonalLevel(films){
+    if (films < 10){
+        alert("Переглянуто доволі мало фільмів.");
+    } else if (films <= 30){
+        alert("Ви класичний глядач.");
+    } else if (films > 30){
+        alert("Ви кіноман.");
+    } else {
+        alert("Відбулась помилка.");
+    }
+    console.log (personalMovieDB);
 }
 
-console.log (personalMovieDB);
+detectPersonalLevel(personalMovieDB.count);
+
+
+function writeYourGenres(){
+    for (let i = 1; i <= 3; i++){
+        famousGeners = prompt(`"Ваш улюблений жанр під номером ${i}"`);
+        while(famousGeners == '' || famousGeners == null){
+            famousGeners = prompt(`"Ваш улюблений жанр під номером ${i}"`);
+        }
+        personalMovieDB.genres[i - 1] = famousGeners;
+    }
+}
+
+writeYourGenres();
+
+
+function showMyDB (){
+    if (!personalMovieDB.privat){
+        console.log(personalMovieDB);
+    }
+}
+
+showMyDB();
