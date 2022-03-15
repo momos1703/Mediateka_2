@@ -54,12 +54,12 @@ P.S. Функции вызывать не обязательно*/
 'use strict';
 
 let numberOfFilms;
-let question;
-let answer;
-let famousGeners;
 
 function start (){
     numberOfFilms = +prompt("Скільки фільмів Ви вже переглянули?", "");
+    while (numberOfFilms == '' || numberOfFilms == null || isNaN(numberOfFilms)){
+        numberOfFilms = +prompt("Скільки фільмів Ви вже переглянули?", "");
+    }
 }
 
 start ();
@@ -78,20 +78,20 @@ const personalMovieDB = {
 function rememberMyFilms(circles){
     for (let i = 0; i < circles; i++){
 
-        question = prompt("Назвіть один з недавно переглянутих фільмів", '');
+    let recentFilm = prompt("Назвіть один з недавно переглянутих фільмів", '');
     
-                while(question == '' || question == null){
-                    question = prompt("Назвіть один з недавно переглянутих фільмів", '');
+                while(recentFilm == '' || recentFilm == null){
+                    recentFilm = prompt("Назвіть один з недавно переглянутих фільмів", '');
                 }
     
-                if (question && question.length < 50){
-                    answer = +prompt("Як Ви його оціните від 1 до 10?", '');
+                if (recentFilm && recentFilm.length < 50){
+                   let markOfFilm = +prompt("Як Ви його оціните від 1 до 10?", '');
     
-                    while(answer == '' || answer == null || isNaN(answer)){
-                        answer = +prompt("Як Ви його оціните від 1 до 10?", '');
+                    while(markOfFilm == '' || markOfFilm == null || isNaN(markOfFilm)){
+                        markOfFilm = +prompt("Як Ви його оціните від 1 до 10?", '');
                     }
-    
-                    personalMovieDB.movies[question] = answer;
+
+                    personalMovieDB.movies[recentFilm] = markOfFilm;
     
             // if (question && question.length < 50){
     
@@ -145,21 +145,20 @@ detectPersonalLevel(personalMovieDB.count);
 
 function writeYourGenres(){
     for (let i = 1; i <= 3; i++){
-        famousGeners = prompt(`"Ваш улюблений жанр під номером ${i}"`);
-        while(famousGeners == '' || famousGeners == null){
-            famousGeners = prompt(`"Ваш улюблений жанр під номером ${i}"`);
+        let favoriteGeners = prompt(`"Ваш улюблений жанр під номером ${i}"`);
+        while(favoriteGeners == '' || favoriteGeners == null){
+            favoriteGeners = prompt(`"Ваш улюблений жанр під номером ${i}"`);
         }
-        personalMovieDB.genres[i - 1] = famousGeners;
+        personalMovieDB.genres[i - 1] = favoriteGeners;
     }
 }
 
 writeYourGenres();
 
-
-function showMyDB (){
-    if (!personalMovieDB.privat){
+function showMyDB (hidden){
+    if (!hidden){
         console.log(personalMovieDB);
     }
 }
 
-showMyDB();
+showMyDB(personalMovieDB.privat);
